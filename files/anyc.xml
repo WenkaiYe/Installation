@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Custom GT Anyconnect profile to connect to anyc.vpn.gatech.edu. Based on default template. 
+    The _only_ edits are adding anyc.vpn.gatech.edu as a host entry, and removed the second host entry. 
+    Changed UseStartBeforeLogon UserControllable to true.
+    Changed CertificateStoreOverride to true
+    Default local LAN changed to false
+    AutoConnect on start changed to False
+    Added Authentication Timeout
+    Edited 2/24/17 -gt
+    -->
+<!--
+    This is a sample of a Cisco AnyConnect VPN Client Profile XML file.
+
+    Please refer to the Cisco AnyConnect VPN Client Administrator Guide
+    for information regarding profile management and examples of all
+    available options. In short:
+
+      - A Profile should be uniquely named for your Company.  An example is:
+        CiscoProfile.xml
+
+      - The profile name should be the same even if different for individual
+        group within the company.
+
+    This file is intended to be maintained by a Secure Gateway administrator
+    and then distributed with the client software.  The profile based on
+    this XML can be distributed to clients at any time.  The distribution
+    mechanisms supported are as a bundled file with the software distribution
+    or as part of the automatic download mechanism.  The automatic download
+    mechanism only available with certain Cisco Secure Gateway products.
+
+    NOTE: Administrators are strongly encouraged to validate XML profile they
+          create using an online validation tool or via the profile import
+          functionality in ASDM.  Validation can be accomplished with the
+          AnyConnectProfile.xsd found in this directory.
+
+
+    AnyConnectProfile is the root element representing the AnyConnect Client
+    Profile.
+  -->
+<AnyConnectProfile xmlns="http://schemas.xmlsoap.org/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.xmlsoap.org/encoding/ AnyConnectProfile.xsd">
+    <!--
+        The ClientInitialization section represents global settings for the
+        client.  In some cases (e.g. BackupServerList) host specific overrides
+        are possible.
+      -->
+    <ClientInitialization>
+        <AuthenticationTimeout>60</AuthenticationTimeout>
+        <!--
+            The Start Before Logon feature can be used to activate the VPN as
+            part of the logon sequence.
+
+            UserControllable:
+            Does the administrator of this profile allow the user to control
+            this attribute for their own use.  Any user setting associated
+            with this attribute will be stored elsewhere.
+          -->
+        <UseStartBeforeLogon UserControllable="true">false</UseStartBeforeLogon>
+        <!--
+            This control enables an administrator to have a one time message
+            displayed prior to a users first connection attempt.  As an example,
+            the message could be used to remind a user to insert their smart
+            card into it's reader. 
+
+            The message to be used with this control is localizable and can be
+            found in the AnyConnect message catalog.
+            (default: "This is a pre-connect reminder message.")
+          -->
+        <ShowPreConnectMessage>false</ShowPreConnectMessage>
+        <!--
+            This setting allows an administrator to specify which certificate 
+            store AnyConnect will use for locating certificates.
+
+            This setting only applies to the Microsoft Windows version of
+            AnyConnect and has no effect on other platforms.
+          -->
+        <CertificateStore>All</CertificateStore>
+        <!--
+            This setting allows an administrator to direct AnyConnect to search 
+            for certificates in the Windows machine certificate store.  This is 
+            useful in cases where certificates are located in this store and 
+            users do not have administrator privileges on their machine.
+          -->
+        <CertificateStoreOverride>true</CertificateStoreOverride>
+        <!--
+            Controls AnyConnect client behavior when started.  By default, the
+            client will attempt to contact the last Gateway a user connected
+            to or the first one in the list from the AnyConnect profile.  In
+            the case of certificate-only authentication, this will result in
+            the establishment of a VPN tunnel when the client is started.
+          -->
+        <AutoConnectOnStart UserControllable="true">false</AutoConnectOnStart>
+        <!--
+            Controls AnyConnect GUI behavior when a VPN tunnel is established.
+            By default, the GUI will minimize when the VPN tunnel is
+            established.
+          -->
+        <MinimizeOnConnect UserControllable="true">true</MinimizeOnConnect>
+        <!--
+            If Local LAN access is enabled for remote clients on the Secure
+            Gateway, this setting can be used to allow the user to accept or
+            reject this access.
+          -->
+        <LocalLanAccess UserControllable="true">false</LocalLanAccess>
+        <!--
+            This setting allows an administrator to control how a client will
+            behave when the VPN tunnel is interrupted.  Control can optionally
+            be given to the user.
+          -->
+        <AutoReconnect UserControllable="true">true
+          <AutoReconnectBehavior>ReconnectAfterResume</AutoReconnectBehavior>
+        </AutoReconnect>
+        <!--
+            This setting allows the adminstrator to turn off the dynamic
+            update functionality of AnyConnect.  Control of this can also be
+            given to the user.
+          -->
+        <AutoUpdate UserControllable="false">true</AutoUpdate>
+        <!--
+            This setting allows the adminstrator to control how the user will
+            interact with RSA.  By default, AnyConnect will determine the
+            correct method of RSA interaction.  The desired setting can be
+            locked down by the administrator or control can be given to the
+            user.
+          -->
+        <RSASecurIDIntegration UserControllable="false">Automatic</RSASecurIDIntegration>
+        <!--
+            This setting allows the adminstrator to control if more than one
+            user may be logged into the client PC during a VPN connection.
+          -->
+        <WindowsLogonEnforcement>SingleLocalLogon</WindowsLogonEnforcement>
+        <!--
+            This setting allows the adminstrator to control if a VPN
+            connection may be initiated by a remote user.
+          -->
+        <WindowsVPNEstablishment>LocalUsersOnly</WindowsVPNEstablishment>
+        <!--
+            This section enables the definition of various attributes that
+            can be used to refine client certificate selection.
+          -->
+        <CertificateMatch>
+            <!--
+                Certificate Key attributes that can be used for choosing
+                acceptable client certificates.
+              -->
+            <KeyUsage>
+                <MatchKey>Non_Repudiation</MatchKey>
+                <MatchKey>Digital_Signature</MatchKey>
+            </KeyUsage>
+            <!--
+                Certificate Extended Key attributes that can be used for
+                choosing acceptable client certificates.
+              -->
+            <ExtendedKeyUsage>
+                <ExtendedMatchKey>ClientAuth</ExtendedMatchKey>
+            </ExtendedKeyUsage>
+        </CertificateMatch>
+        <MobilePolicy>
+            <!-- 
+            DeviceLockRequired indicates that a Windows Mobile device must 
+            be configured with a password or PIN prior to establishing a 
+            VPN connection.  This configuration is only valid on Windows 
+            Mobile devices that use the Microsoft Default Local 
+            Authentication Provider (LAP).
+            
+            The following attributes can be specified to check additional 
+            settings.  The platforms for which each additional check is 
+            performed as specified with "WM5AKU2+" for Windows Mobile 5 with
+            the Messaging and Security Feature Pack delivered as part of
+            Adaption Kit Upgrade 2 (AKU2).
+            
+                MaximumTimeoutMinutes - when set to non-negative 
+                    number, specifies the maximum number of minutes 
+                    that must be configured before device lock takes
+                    effect.  (WM5/WM5AKU2+)                   
+                MinimumPasswordLength - when set to a non-negative number,
+                    specifies that any PIN/password used for device lock 
+                    must be equal to or longer than the specified value, 
+                    in characters.  This setting must be pushed down to
+                    the mobile device by syncing with an Exchange server
+                    before it can be enforced. (WM5AKU2+)
+                PasswordComplexity - when present checks for the following
+                    password subtypes:
+                        "alpha"  - Requires an alphanumeric password
+                        "pin"    - Numeric PIN required
+                        "strong" - Strong alphanumeric password defined by
+                                   Microsoft as containing at least 7 
+                                   characters, including at lesst 3 from 
+                                   the set of uppercase, lowercase, 
+                                   numerals, and punctuation.
+                    
+                    This setting must be pushed down to the mobile device 
+                    by syncing with an Exchange server before it can be 
+                    enforced. (WM5AKU2+)
+
+            Note that this configuration setting merely enforces policy - 
+            it does not actually change local device policy.
+          -->
+        <DeviceLockRequired 
+            MaximumTimeoutMinutes="60"
+            MinimumPasswordLength="4"
+            PasswordComplexity="pin"/>
+        </MobilePolicy>
+    </ClientInitialization>
+    <!--
+        This section contains the list of hosts the user will be able to
+        select from.
+      -->
+    <ServerList>
+        <!--
+            This is the data needed to attempt a connection to a specific
+            host.
+          -->
+        <HostEntry>
+            <!--
+                Can be an alias used to refer to the host or an  FQDN or
+                IP address.  If an FQDN or IP address is used, a
+                HostAddress is not required.
+              -->
+            <HostName>anyc.vpn.gatech.edu</HostName>
+            <HostAddress>anyc.vpn.gatech.edu</HostAddress>
+        </HostEntry>
+    </ServerList>
+</AnyConnectProfile>
