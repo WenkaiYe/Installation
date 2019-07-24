@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Nemo
+Exec=nemo
+#Icon=<full path to icon>
+Comment=nemo
+X-GNOME-Autostart-enabled=true

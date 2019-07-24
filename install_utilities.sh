@@ -31,3 +31,10 @@ source ~/.bashrc
 
 # google pinyin
 sudo apt-get install fcitx-googlepinyin -y
+
+# nemo
+sudo apt-get install nemo -y
+xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search
+gsettings set org.gnome.desktop.background show-desktop-icons false
+gsettings set org.nemo.desktop show-desktop-icons true
+sudo cp files/applications/Nemo.desktop ~/.config/autostart
